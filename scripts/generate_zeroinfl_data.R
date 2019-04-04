@@ -29,9 +29,9 @@ binomial = rbinom(length(lambdas),1,probs) # make random binomial draws to deter
 vals = vals*binomial
 
 # Store as a data frame
-changing_zeroinfl = data.frame(predictor = lambdas,
+variable_zeroinfl = data.frame(predictor = lambdas,
                                tree_count = vals)
-write.csv(constant_zeroinfl,"data/simulated_variable_zeroinfl.csv",row.names=FALSE)
+write.csv(variable_zeroinfl,"data/simulated_variable_zeroinfl.csv",row.names=FALSE)
 
 
 
