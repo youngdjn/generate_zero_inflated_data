@@ -38,13 +38,15 @@ write.csv(variable_zeroinfl,"data/simulated_variable_zeroinfl.csv",row.names=FAL
 #### Simluate a dataset where both the zero probability and the count vary with a predictor, but in opposite directions ####
 # Samea s the above code block, but reverse the probability sequence passed to rbinom
 
+set.seed(4)
+
 vals = rpois(length(lambdas),lambdas)
 probs = seq(from=1,to=.33,length.out=length(lambdas))
 binomial = rbinom(length(lambdas),1,probs) # about 33% of the values are zero
 vals = vals*binomial
-changing_zeroinfl_reverse = data.frame(predictor = lambdas,
+variable_zeroinfl_reverse = data.frame(predictor = lambdas,
                                        tree_count = vals)
-write.csv(constant_zeroinfl,"data/simulated_reverse_variable_zeroinfl.csv",row.names=FALSE)
+write.csv(variable_zeroinfl_reverse,"data/simulated_reverse_variable_zeroinfl.csv",row.names=FALSE)
 
 
 
@@ -52,7 +54,7 @@ write.csv(constant_zeroinfl,"data/simulated_reverse_variable_zeroinfl.csv",row.n
 #### Generate a maybe zero-inflated dataset based on small plots that sample a clustered spatial distribution of trees ####
 
 scale = 0.3 # each cluster has a radius of 0.3 m
-kappas =  seq(from=0.001, to=0.04, by=0.00005) # the kappa parameter determines the density of clusters: prepare to simulate landscapes with different densities of cluters (and thus trees)  
+kappas =  seq(from=0.001, to=0.04, by=0.0001) # the kappa parameter determines the density of clusters: prepare to simulate landscapes with different densities of cluters (and thus trees)  
 plot_size = 7.7 # 60 sq m, equivalent of a regen plot (as coded here, it's a square plot)
 
 sim_data = NULL
