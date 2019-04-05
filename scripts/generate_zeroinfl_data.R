@@ -98,3 +98,62 @@ hist(sim_data_high_predictor$tree_count) # at high values of the predictor, the 
 
 write.csv(sim_data,"data/simulated_spatial_variable_zeroinfl.csv",row.names=FALSE)
 
+
+
+#### Make a histogram of number of trees observed in plots of different sizes ####
+
+scale = 2.5 # each cluster has a radius of 0.3 m
+kappa =  0.003 # the kappa parameter determines the density of clusters: prepare to simulate landscapes with different densities of cluters (and thus trees)  
+plot_sizes = c(4.4, 8, 12, 16, 20)^2 * 3.14 # 60 sq m, equivalent of a regen plot (as coded here, it's a square plot)
+plot_sizes = sqrt(plot_sizes) %>% round()
+
+hists = list()
+
+# For each kappa value (density of tree clusters), simulate a distribution of trees within the specified plot size
+for(plot_size in plot_sizes) {
+  
+  all_points = NULL
+  
+  for(i in 1:20000) {
+    
+    # Generate a random spatial pattern
+    points = rMatClust(kappa,scale,mu=8,win=owin(c(0,plot_size),c(0,plot_size)))
+    # Count the number of points in it
+    npoints_sample = points$n
+    
+    # compile into a growing list of point counts
+    all_points = c(all_points,npoints_sample)
+
+  }
+  
+  all_points = data.frame(trees = all_points,category="1")
+  
+  p = ggplot(all_points,aes(x=trees)) +
+    geom_histogram(bins=20) +
+    ggtitle(paste0("Plot size = ",plot_size))
+  
+  hists[[as.character(plot_size)]] = p
+  
+}
+
+library(gridExtra)
+grid.arrange(hists[[1]],hists[[2]],hists[[3]],hists[[4]],hists[[5]],ncol=5)
+
+# an example of the point distribution these barplot came from
+points = rMatClust(kappa,scale,mu=8,win=owin(c(0,100),c(0,100)))
+plot(points)
+
+
+
+
+
+
+#### Plot poisson distribution ####
+
+
+count_vals = 0:30
+lambda = 1
+pois_distrib = data.frame(count = count_vals,
+                          density = dpois(count_vals, lambda=lambda))
+plot(pois_distrib)
+
