@@ -2,7 +2,7 @@
 
 The single script in this repo (in the "scripts" folder) generates four example zero-inflated datasets:
 
-## Constant zero inflation
+## Constant zero-inflation
 
 Data file: simulated_constant_zeroinfl.csv
 
